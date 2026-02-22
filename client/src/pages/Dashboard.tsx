@@ -3,6 +3,7 @@ import CameraView from "@/components/CameraView";
 import AnalysisResults from "@/components/AnalysisResults";
 import RecyclingIntel from "@/components/RecyclingIntel";
 import EnvironmentalImpact from "@/components/EnvironmentalImpact";
+import StakeholderMetrics from "@/components/StakeholderMetrics";
 import { Leaf, Cpu, Activity, Zap } from "lucide-react";
 
 export default function Dashboard() {
@@ -93,6 +94,10 @@ export default function Dashboard() {
           
           <section className="glass-panel rounded-2xl p-6">
              <EnvironmentalImpact />
+          </section>
+
+          <section className="glass-panel rounded-2xl p-6 animate-in fade-in slide-in-from-right-4 duration-700">
+             <StakeholderMetrics />
           </section>
         </div>
       </main>
