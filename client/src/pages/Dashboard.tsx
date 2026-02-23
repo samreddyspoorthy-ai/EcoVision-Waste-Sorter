@@ -4,7 +4,10 @@ import AnalysisResults from "@/components/AnalysisResults";
 import RecyclingIntel from "@/components/RecyclingIntel";
 import EnvironmentalImpact from "@/components/EnvironmentalImpact";
 import StakeholderMetrics from "@/components/StakeholderMetrics";
-import { Leaf, Cpu, Activity, Zap } from "lucide-react";
+import AIChatbot from "@/components/AIChatbot";
+import Gamification from "@/components/Gamification";
+import SmartCityHub from "@/components/SmartCityHub";
+import { Leaf, Cpu, Activity, Zap, MessageSquare, Trophy, Building2, BookOpen } from "lucide-react";
 
 export default function Dashboard() {
   const [analysisState, setAnalysisState] = useState<'idle' | 'analyzing' | 'complete'>('idle');
@@ -91,6 +94,30 @@ export default function Dashboard() {
                <RecyclingIntel results={results} state={analysisState} />
             </div>
           </section>
+
+          <section className="glass-panel rounded-2xl p-6">
+            <h2 className="text-xl font-display flex items-center gap-2 mb-6 text-primary">
+              <MessageSquare className="w-5 h-5" />
+              EcoGuide AI Chatbot
+            </h2>
+            <AIChatbot />
+          </section>
+
+          <section className="glass-panel rounded-2xl p-6">
+            <h2 className="text-xl font-display flex items-center gap-2 mb-6 text-yellow-400">
+              <Trophy className="w-5 h-5" />
+              Impact Gamification
+            </h2>
+            <Gamification />
+          </section>
+
+          <section className="glass-panel rounded-2xl p-6">
+            <h2 className="text-xl font-display flex items-center gap-2 mb-6 text-secondary">
+              <Building2 className="w-5 h-5" />
+              Smart City Hub
+            </h2>
+            <SmartCityHub />
+          </section>
           
           <section className="glass-panel rounded-2xl p-6">
              <EnvironmentalImpact />
@@ -98,6 +125,22 @@ export default function Dashboard() {
 
           <section className="glass-panel rounded-2xl p-6 animate-in fade-in slide-in-from-right-4 duration-700">
              <StakeholderMetrics />
+          </section>
+
+          {/* School Awareness Mode Prompt */}
+          <section className="glass-panel rounded-2xl p-6 bg-gradient-to-br from-indigo-500/10 to-transparent border-indigo-500/20 group cursor-pointer hover:border-indigo-500/50 transition-all">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-indigo-500/20 text-indigo-400 group-hover:scale-110 transition-transform">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold uppercase tracking-tight">Education Mode</h4>
+                  <p className="text-[10px] text-muted-foreground">Animated diagrams & awareness quizzes</p>
+                </div>
+              </div>
+              <div className="px-3 py-1 rounded bg-indigo-500 text-white text-[10px] font-bold uppercase shadow-lg shadow-indigo-500/20">Active</div>
+            </div>
           </section>
         </div>
       </main>
