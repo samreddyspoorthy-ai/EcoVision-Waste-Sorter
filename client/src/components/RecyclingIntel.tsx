@@ -1,4 +1,4 @@
-import { Lightbulb, Info, Trash2, ShieldAlert, Recycle, Sprout } from "lucide-react";
+import { Lightbulb, Info, Trash2, ShieldAlert, Recycle, Sprout, Factory, Microscope, Flame, Building, MapPin, Heart, AlertCircle, RefreshCcw } from "lucide-react";
 
 interface IntelProps {
   state: 'idle' | 'analyzing' | 'complete';
@@ -10,7 +10,7 @@ export default function RecyclingIntel({ state, results }: IntelProps) {
     return (
       <div className="h-full flex flex-col items-center justify-center text-muted-foreground opacity-50 p-8 text-center">
         <Lightbulb className={`w-12 h-12 mb-4 ${state === 'analyzing' ? 'animate-pulse text-secondary' : ''}`} />
-        <p className="font-mono text-sm">Awaiting visual input for ecological assessment...</p>
+        <p className="font-mono text-sm tracking-tight">Awaiting visual stream for deep neural assessment...</p>
       </div>
     );
   }
@@ -20,47 +20,43 @@ export default function RecyclingIntel({ state, results }: IntelProps) {
       case 'Recyclable':
         return {
           icon: <Recycle className="w-6 h-6 text-primary" />,
-          action: "Clean and sort before recycling.",
-          steps: [
-            "Rinse out any food residue.",
-            "Remove non-recyclable caps or lids.",
-            "Place in designated blue bin."
-          ],
-          impact: "Saves raw materials and reduces manufacturing energy by up to 90%."
+          utilization: "Plastic → High-grade pellets, synthetic fibers, road construction aggregates.",
+          method: "Mechanical & Chemical Recycling",
+          ngos: ["Waste Warriors", "Saahas", "Hasiru Dala"],
+          gov: "Smart City Material Recovery Facility (MRF)",
+          impact: "Reduces virgin plastic production by 70%; generates local green-collar jobs.",
+          tips: ["Rinse thoroughly", "Crush to save space", "Keep dry"]
         };
       case 'Organic':
         return {
           icon: <Sprout className="w-6 h-6 text-yellow-400" />,
-          action: "Compost or use green bin.",
-          steps: [
-            "Remove any plastic stickers or tags.",
-            "Place in compost bin or municipal green waste.",
-            "Do not mix with regular trash."
-          ],
-          impact: "Reduces methane emissions from landfills and creates nutrient-rich soil."
+          utilization: "Food Waste → Nutrient-rich compost, Biogas for clean energy.",
+          method: "Aerobic Composting / Anaerobic Digestion",
+          ngos: ["Daily Dump", "Soil Vasu", "Green Foundation"],
+          gov: "Municipal Decentralized Composting Units",
+          impact: "Prevents methane leaching in landfills; restores urban soil health.",
+          tips: ["No plastic liners", "Drain liquids", "Remove stickers"]
         };
       case 'Hazardous':
         return {
           icon: <ShieldAlert className="w-6 h-6 text-destructive" />,
-          action: "Requires specialized disposal facility.",
-          steps: [
-            "Do NOT place in regular trash or recycling.",
-            "Store in a safe, leak-proof container.",
-            "Take to local hazardous waste drop-off center."
-          ],
-          impact: "Prevents toxic chemicals from leaching into groundwater and soil."
+          utilization: "E-Waste → Rare earth metal recovery (Gold, Cobalt, Lithium).",
+          method: "Authorized Specialized Extraction",
+          ngos: ["E-Parisaraa", "Attero", "Cerebra"],
+          gov: "State Pollution Control Board (SPCB) Collection Centers",
+          impact: "Prevents heavy metal neurotoxins from entering groundwater systems.",
+          tips: ["Seal in bags", "Don't break screens", "Keep away from heat"]
         };
       case 'Non-Recyclable':
       default:
         return {
           icon: <Trash2 className="w-6 h-6 text-orange-500" />,
-          action: "Dispose of in regular waste bin.",
-          steps: [
-            "Ensure item is not oversized or hazardous.",
-            "Place securely in black/grey trash bin.",
-            "Consider reusable alternatives for the future."
-          ],
-          impact: "Contributes to landfill volume. Reducing consumption is recommended."
+          utilization: "Residual Waste → Refuse Derived Fuel (RDF) for cement kilns.",
+          method: "Controlled Incineration / Waste-to-Energy",
+          ngos: ["SWMRT", "Clean Up Foundation"],
+          gov: "Waste-to-Energy Thermal Plants",
+          impact: "Reduces landfill footprint by 90% through volume reduction.",
+          tips: ["Wrap sharp objects", "Tie bags tightly", "Check for hazardous mix"]
         };
     }
   };
@@ -69,34 +65,77 @@ export default function RecyclingIntel({ state, results }: IntelProps) {
 
   return (
     <div className="flex flex-col gap-6 animate-in slide-in-from-right-4 duration-500">
-      <div className="flex items-start gap-4 p-4 rounded-xl bg-black/40 border border-white/5">
-        <div className="p-2 rounded-lg bg-white/5 border border-white/10">
-          {intel.icon}
+      {/* 2. Waste Utilization Intelligence */}
+      <div className="space-y-4">
+        <div className="p-4 rounded-xl bg-primary/5 border border-primary/10">
+          <h4 className="font-display font-semibold text-sm flex items-center gap-2 mb-2 text-primary">
+            <Factory className="w-4 h-4" /> Waste Usage Insights
+          </h4>
+          <p className="text-sm text-foreground/90 leading-relaxed">{intel.utilization}</p>
         </div>
-        <div>
-          <h4 className="font-display font-semibold text-lg mb-1">Recommended Action</h4>
-          <p className="text-muted-foreground text-sm">{intel.action}</p>
+
+        <div className="p-4 rounded-xl bg-secondary/5 border border-secondary/10">
+          <h4 className="font-display font-semibold text-sm flex items-center gap-2 mb-2 text-secondary">
+            <Microscope className="w-4 h-4" /> Recommended Process
+          </h4>
+          <div className="flex items-center gap-2">
+            <span className="text-xs bg-secondary/20 text-secondary px-2 py-0.5 rounded font-mono uppercase tracking-tighter">
+              {intel.method}
+            </span>
+          </div>
         </div>
       </div>
 
-      <div>
-        <h4 className="font-mono text-sm uppercase text-muted-foreground mb-3 tracking-wider flex items-center gap-2">
-           <Info className="w-4 h-4" /> Action Steps
-        </h4>
-        <ul className="space-y-3">
-          {intel.steps.map((step, idx) => (
-            <li key={idx} className="flex items-start gap-3 text-sm">
-              <span className="font-mono text-secondary mt-0.5 opacity-70">0{idx + 1}</span>
-              <span className="text-foreground/90">{step}</span>
-            </li>
-          ))}
-        </ul>
+      {/* 3. NGO & Government Integration */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <h4 className="font-mono text-[10px] uppercase text-muted-foreground tracking-widest flex items-center gap-1">
+             <MapPin className="w-3 h-3" /> NGO Mapping
+          </h4>
+          <div className="flex flex-wrap gap-1">
+            {intel.ngos.map(ngo => (
+              <span key={ngo} className="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-foreground/80">
+                {ngo}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="space-y-2">
+          <h4 className="font-mono text-[10px] uppercase text-muted-foreground tracking-widest flex items-center gap-1">
+             <Building className="w-3 h-3" /> Gov. Initiative
+          </h4>
+          <p className="text-[11px] text-foreground/70">{intel.gov}</p>
+        </div>
       </div>
 
-      <div className="mt-auto pt-4 border-t border-white/5">
-        <p className="text-xs text-muted-foreground leading-relaxed">
-          <strong className="text-foreground">Ecological Impact:</strong> {intel.impact}
-        </p>
+      {/* 4. Social Impact & Awareness */}
+      <div className="pt-4 border-t border-white/5">
+        <div className="flex items-start gap-3 mb-4">
+          <Heart className="w-5 h-5 text-pink-500 shrink-0" />
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-tight text-pink-500/80">Community Impact</h4>
+            <p className="text-xs text-muted-foreground mt-1">{intel.impact}</p>
+          </div>
+        </div>
+
+        <div className="p-3 rounded-lg bg-black/40 border border-white/5">
+          <h4 className="text-xs font-mono uppercase text-muted-foreground mb-2 flex items-center gap-2">
+            <AlertCircle className="w-3 h-3 text-yellow-500" /> Disposal Do's & Don'ts
+          </h4>
+          <ul className="space-y-1.5">
+            {intel.tips.map((tip, i) => (
+              <li key={i} className="text-[11px] flex items-center gap-2 text-foreground/80">
+                <div className="w-1 h-1 rounded-full bg-primary" /> {tip}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Circular Economy Footnote */}
+      <div className="flex items-center gap-2 text-[10px] text-primary/60 font-mono">
+        <RefreshCcw className="w-3 h-3 animate-spin-slow" />
+        CIRCULAR ECONOMY PROTOCOL ACTIVE: WASTE AS RAW MATERIAL
       </div>
     </div>
   );
