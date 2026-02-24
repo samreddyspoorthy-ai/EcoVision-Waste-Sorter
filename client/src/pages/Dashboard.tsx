@@ -7,7 +7,10 @@ import StakeholderMetrics from "@/components/StakeholderMetrics";
 import AIChatbot from "@/components/AIChatbot";
 import Gamification from "@/components/Gamification";
 import SmartCityHub from "@/components/SmartCityHub";
-import { Leaf, Cpu, Activity, Zap, MessageSquare, Trophy, Building2, BookOpen } from "lucide-react";
+import AnalyticsDashboard from "@/components/AnalyticsDashboard";
+import EWasteModule from "@/components/EWasteModule";
+import SmartBinSimulation from "@/components/SmartBinSimulation";
+import { Leaf, Cpu, Activity, Zap, MessageSquare, Trophy, Building2, BookOpen, BarChart4, HardDrive, Smartphone, Container } from "lucide-react";
 
 export default function Dashboard() {
   const [analysisState, setAnalysisState] = useState<'idle' | 'analyzing' | 'complete'>('idle');
@@ -135,6 +138,30 @@ export default function Dashboard() {
               Smart City Hub
             </h2>
             <SmartCityHub />
+          </section>
+          
+          <section className="glass-panel rounded-2xl p-6">
+            <h2 className="text-xl font-display flex items-center gap-2 mb-6 text-primary">
+              <BarChart4 className="w-5 h-5" />
+              Advanced Data Analytics
+            </h2>
+            <AnalyticsDashboard />
+          </section>
+
+          <section className="glass-panel rounded-2xl p-6">
+            <h2 className="text-xl font-display flex items-center gap-2 mb-6 text-blue-400">
+              <Smartphone className="w-5 h-5" />
+              E-Waste Special Module
+            </h2>
+            <EWasteModule />
+          </section>
+
+          <section className="glass-panel rounded-2xl p-6">
+            <h2 className="text-xl font-display flex items-center gap-2 mb-6 text-teal-400">
+              <Container className="w-5 h-5" />
+              Smart Bin IoT Telemetry
+            </h2>
+            <SmartBinSimulation />
           </section>
           
           <section className="glass-panel rounded-2xl p-6">

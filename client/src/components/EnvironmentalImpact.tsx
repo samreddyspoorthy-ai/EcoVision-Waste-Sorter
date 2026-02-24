@@ -6,8 +6,6 @@ export default function EnvironmentalImpact() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch real-time weather from Open-Meteo
-    // Using Bangalore coordinates as default
     fetch("https://api.open-meteo.com/v1/forecast?latitude=12.9716&longitude=77.5946&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,wind_speed_10m&timezone=auto")
       .then(res => res.json())
       .then(data => {
@@ -16,11 +14,6 @@ export default function EnvironmentalImpact() {
       })
       .catch(() => setLoading(false));
   }, []);
-
-  const getWasteClimateInsight = (temp: number) => {
-    if (temp > 30) return "High heat accelerates organic decomposition, increasing odor and methane emissions. Immediate segregation required.";
-    return "Stable conditions for waste transport and processing. Air quality remains priority for incinerator operations.";
-  };
 
   return (
     <div>
@@ -41,9 +34,12 @@ export default function EnvironmentalImpact() {
         <div className="p-4 rounded-xl bg-black/40 border border-white/5 flex flex-col gap-2 group hover:border-blue-400/30 transition-colors">
           <div className="flex items-center gap-2 text-muted-foreground mb-1">
             <Droplets className="w-4 h-4 text-blue-400" />
-            <span className="text-xs font-mono uppercase tracking-wider">Humidity</span>
+            <span className="text-xs font-mono uppercase tracking-wider">AQI Index</span>
           </div>
-          <p className="text-2xl font-mono">{loading ? "--" : weather?.relative_humidity_2m}%</p>
+          <div className="flex items-baseline gap-2">
+            <p className="text-2xl font-mono">42</p>
+            <span className="text-[10px] text-primary bg-primary/20 px-1.5 rounded font-bold">HEALTHY</span>
+          </div>
         </div>
         
         <div className="p-4 rounded-xl bg-black/40 border border-white/5 flex flex-col gap-2 group hover:border-teal-400/30 transition-colors">
@@ -54,7 +50,7 @@ export default function EnvironmentalImpact() {
           <p className="text-2xl font-mono">{loading ? "--" : weather?.wind_speed_10m} <span className="text-xs text-muted-foreground">km/h</span></p>
         </div>
 
-        <div className="p-4 rounded-xl bg-gradient-to-br from-primary/20 to-transparent border border-primary/20 flex flex-col justify-between">
+        <div className="p-4 rounded-xl bg-gradient-to-br from-primary/20 to-transparent border border-primary/20 flex flex-col justify-between group hover:border-primary/50 transition-all">
           <p className="text-xs text-primary font-mono mb-2 flex items-center gap-1">
              <Zap className="w-3 h-3" /> System Impact
           </p>
@@ -65,14 +61,21 @@ export default function EnvironmentalImpact() {
         </div>
       </div>
 
-      {!loading && (
-        <div className="mt-4 p-3 rounded-lg bg-secondary/10 border border-secondary/30 flex items-start gap-3 animate-in fade-in duration-1000">
-          <AlertTriangle className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
-          <p className="text-[11px] text-secondary-foreground leading-tight italic">
-            {getWasteClimateInsight(weather?.temperature_2m)}
-          </p>
+      <div className="mt-4 p-4 rounded-xl bg-orange-500/10 border border-orange-500/20 space-y-3">
+        <h4 className="text-[10px] font-mono uppercase text-orange-400 flex items-center gap-2">
+           <AlertTriangle className="w-3 h-3" /> Weather-Waste Interaction Model
+        </h4>
+        <div className="grid grid-cols-2 gap-2 text-[10px]">
+          <div className="p-2 rounded bg-black/40 border border-white/5">
+            <p className="text-white/80">Rain Impact</p>
+            <p className="text-muted-foreground mt-0.5">Plastic clogging drains risk: HIGH</p>
+          </div>
+          <div className="p-2 rounded bg-black/40 border border-white/5">
+            <p className="text-white/80">Heat Impact</p>
+            <p className="text-muted-foreground mt-0.5">Methane release risk: MODERATE</p>
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
