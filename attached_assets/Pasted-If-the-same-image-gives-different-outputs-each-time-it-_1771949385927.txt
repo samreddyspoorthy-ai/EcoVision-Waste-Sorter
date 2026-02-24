@@ -1,0 +1,192 @@
+If the same image gives different outputs each time, it means your AI pipeline is non-deterministic.
+
+Let’s fix it properly.
+
+🎯 WHY This Is Happening
+
+When the same image gives different predictions, it is usually because of one of these reasons:
+
+✅ 1️⃣ Random Data Augmentation Is Still Active
+
+If your preprocessing includes:
+
+random rotation
+
+random crop
+
+random zoom
+
+random flip
+
+Then each time you upload, the model sees a slightly modified image.
+
+🔴 That will change prediction.
+
+✅ 2️⃣ Model Is Running in Training Mode
+
+If using TensorFlow / Keras and you didn’t set:
+
+model.eval()
+
+(or equivalent inference mode)
+
+Dropout layers may randomly deactivate neurons → different outputs.
+
+✅ 3️⃣ Random Seed Not Fixed
+
+If your system uses:
+
+numpy
+
+tensorflow
+
+random
+
+Without fixing seed, results can vary.
+
+✅ 4️⃣ Image Preprocessing Is Inconsistent
+
+Common mistakes:
+
+Using random resize
+
+Using different normalization
+
+Using float32 sometimes, int sometimes
+
+Not converting BGR → RGB correctly
+
+✅ 5️⃣ Confidence Threshold Is Too Low
+
+If confidence values are very close like:
+
+Organic: 0.32
+Recyclable: 0.30
+Hazardous: 0.28
+
+Then slight floating change gives different class.
+
+🔥 HOW TO FIX IT PROPERLY
+✅ STEP 1: Remove All Random Transformations
+
+In inference, DO NOT use:
+
+RandomFlip
+RandomRotation
+RandomZoom
+
+Use only:
+
+Resize(224, 224)
+Normalize
+✅ STEP 2: Set Model to Evaluation Mode
+
+If using TensorFlow:
+
+model.trainable = False
+
+If using PyTorch:
+
+model.eval()
+✅ STEP 3: Fix Random Seeds
+
+Add at top of your backend:
+
+import random
+import numpy as np
+import tensorflow as tf
+
+random.seed(42)
+np.random.seed(42)
+tf.random.set_seed(42)
+
+This ensures deterministic output.
+
+✅ STEP 4: Fix Image Preprocessing (VERY IMPORTANT)
+
+Use EXACT same pipeline every time:
+
+def preprocess_image(image):
+    image = image.resize((224, 224))
+    image = np.array(image) / 255.0
+    image = image.astype(np.float32)
+    image = np.expand_dims(image, axis=0)
+    return image
+
+No randomness.
+
+✅ STEP 5: Add Confidence Stabilizer
+
+Instead of taking raw top class:
+
+prediction = model.predict(img)
+class_index = np.argmax(prediction)
+confidence = float(prediction[0][class_index])
+
+Add threshold:
+
+if confidence < 0.5:
+    label = "Uncertain - Please Try Again"
+✅ STEP 6: Debug Print Predictions
+
+Temporarily print:
+
+print(prediction)
+
+Check if values are drastically changing.
+
+If yes → model unstable
+If slightly changing → threshold issue
+
+🧠 Important Academic Insight
+
+You are using:
+
+MobileNetV2
+
+MobileNetV2 itself is deterministic.
+
+So issue is:
+
+Preprocessing
+
+Dropout active
+
+Random transformations
+
+NOT Replit.
+
+🚀 Best Professional Fix (Production Level)
+
+Convert your model to fully deterministic TFLite:
+
+converter.optimizations = []
+
+Avoid quantization randomness.
+
+🏆 Extra Stability Improvement
+
+Cache result based on image hash.
+
+Example:
+
+import hashlib
+
+def get_image_hash(image_bytes):
+    return hashlib.md5(image_bytes).hexdigest()
+
+Store prediction in dictionary:
+
+If same hash → return stored result
+Guarantees 100% identical output.
+
+🎯 Final Clean Professional Solution
+
+Do ALL of these:
+
+✔ Remove random augmentation
+✔ Set model to eval mode
+✔ Fix random seed
+✔ Ensure consistent preprocessing
+✔ Add confidence threshold
+✔ Optional: Cache predictions

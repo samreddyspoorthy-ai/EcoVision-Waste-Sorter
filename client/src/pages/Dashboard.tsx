@@ -13,16 +13,34 @@ export default function Dashboard() {
   const [analysisState, setAnalysisState] = useState<'idle' | 'analyzing' | 'complete'>('idle');
   const [results, setResults] = useState<any>(null);
 
-  const handleAnalyze = (imageSrc: string) => {
+  const handleAnalyze = async (imageSrc: string) => {
     setAnalysisState('analyzing');
+
+    // Deterministic Hashing for consistent results
+    const getHash = (str: string) => {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+      }
+      return Math.abs(hash);
+    };
+
+    const hash = getHash(imageSrc);
+    
     // Simulate AI analysis delay
     setTimeout(() => {
-      // Mock results
       const mockCategories = ['Recyclable', 'Non-Recyclable', 'Organic', 'Hazardous'];
-      const category = mockCategories[Math.floor(Math.random() * mockCategories.length)];
+      // Use hash to pick category deterministically
+      const category = mockCategories[hash % mockCategories.length];
+      
+      // Use hash for deterministic confidence (85-99%)
+      const confidence = (85 + (hash % 150) / 10).toFixed(1);
+
       setResults({
         category,
-        confidence: (Math.random() * 20 + 80).toFixed(1), // 80-99.9%
+        confidence,
         bbox: { x: 20, y: 30, w: 60, h: 50 },
         imageSrc
       });
