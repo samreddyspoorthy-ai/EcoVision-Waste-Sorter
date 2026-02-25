@@ -10,7 +10,8 @@ import SmartCityHub from "@/components/SmartCityHub";
 import AnalyticsDashboard from "@/components/AnalyticsDashboard";
 import EWasteModule from "@/components/EWasteModule";
 import SmartBinSimulation from "@/components/SmartBinSimulation";
-import { Leaf, Cpu, Activity, Zap, MessageSquare, Trophy, Building2, BookOpen, BarChart4, HardDrive, Smartphone, Container } from "lucide-react";
+import AIExplainability from "@/components/AIExplainability";
+import { Leaf, Cpu, Activity, Zap, MessageSquare, Trophy, Building2, BookOpen, BarChart4, HardDrive, Smartphone, Container, Eye } from "lucide-react";
 
 export default function Dashboard() {
   const [analysisState, setAnalysisState] = useState<'idle' | 'analyzing' | 'complete'>('idle');
@@ -162,6 +163,14 @@ export default function Dashboard() {
               Smart Bin IoT Telemetry
             </h2>
             <SmartBinSimulation />
+          </section>
+
+          <section className="glass-panel rounded-2xl p-6">
+            <h2 className="text-xl font-display flex items-center gap-2 mb-6 text-orange-400">
+              <Eye className="w-5 h-5" />
+              AI Explainability & Training
+            </h2>
+            <AIExplainability />
           </section>
           
           <section className="glass-panel rounded-2xl p-6">
