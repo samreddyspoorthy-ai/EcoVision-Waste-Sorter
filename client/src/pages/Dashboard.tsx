@@ -11,7 +11,8 @@ import AnalyticsDashboard from "@/components/AnalyticsDashboard";
 import EWasteModule from "@/components/EWasteModule";
 import SmartBinSimulation from "@/components/SmartBinSimulation";
 import AIExplainability from "@/components/AIExplainability";
-import { Leaf, Cpu, Activity, Zap, MessageSquare, Trophy, Building2, BookOpen, BarChart4, HardDrive, Smartphone, Container, Eye } from "lucide-react";
+import ObjectDetectionTraining from "@/components/ObjectDetectionTraining";
+import { Leaf, Cpu, Activity, Zap, MessageSquare, Trophy, Building2, BookOpen, BarChart4, HardDrive, Smartphone, Container, Eye, Target } from "lucide-react";
 
 export default function Dashboard() {
   const [analysisState, setAnalysisState] = useState<'idle' | 'analyzing' | 'complete'>('idle');
@@ -168,9 +169,17 @@ export default function Dashboard() {
           <section className="glass-panel rounded-2xl p-6">
             <h2 className="text-xl font-display flex items-center gap-2 mb-6 text-orange-400">
               <Eye className="w-5 h-5" />
-              AI Explainability & Training
+              AI Explainability & Heatmaps
             </h2>
             <AIExplainability />
+          </section>
+
+          <section className="glass-panel rounded-2xl p-6">
+            <h2 className="text-xl font-display flex items-center gap-2 mb-6 text-yellow-400">
+              <Target className="w-5 h-5" />
+              Object Detection & ML Training
+            </h2>
+            <ObjectDetectionTraining />
           </section>
           
           <section className="glass-panel rounded-2xl p-6">
